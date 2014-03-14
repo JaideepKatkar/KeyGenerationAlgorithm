@@ -1,0 +1,83 @@
+#include "stdafx.h"
+#include "conio.h"
+
+int test()
+{
+	char s[64];
+	printf("***Mistery Keygen***\nEnter username: \n");
+	scanf("%s", s);
+	int p = (int)&s[0];
+	int result;
+
+	__asm
+	{
+		mov ebx, 0x73
+		mov edx, p
+
+
+		push    ebx
+		push    ebp
+		push    esi
+		mov     eax, edx
+		push    edi
+		xor     esi, esi
+		xor     edi, edi
+		lea     ebx, [eax+1]
+		lea     ecx, [ecx+0]
+
+	loc_401590:	            ; CODE XREF: sub_401580+15 j
+		mov     cl, [eax]
+		inc     eax
+		test    cl, cl
+		jnz     short loc_401590
+		sub     eax, ebx
+		mov     ebx, eax
+		sar     ebx, 1
+		movsx   ebp, byte ptr [ebx+edx]
+		imul    ebp, 3E8h
+		xor     eax, eax
+		cmp     ebx, 2
+		jl      short loc_4015CF
+		mov     edi, edi
+
+	loc_4015B0:	            ; CODE XREF: sub_401580+4D j
+		movsx   ecx, byte ptr [edx+eax]
+		lea     ecx, [ecx+ecx*4]
+		lea     esi, [esi+ecx*2]
+		movsx   ecx, byte ptr [edx+eax+1]
+		lea     ecx, [ecx+ecx*4]
+		lea     edi, [edi+ecx*2]
+		add     eax, 2
+		lea     ecx, [ebx-1]
+		cmp     eax, ecx
+		jl      short loc_4015B0
+
+	loc_4015CF:	            ; CODE XREF: sub_401580+2C j
+		cmp     eax, ebx
+		jge     short loc_4015DE
+		movsx   eax, byte ptr [eax+edx]
+		lea     edx, [eax+eax*4]
+		lea     ebp, [ebp+edx*2+0]
+
+	loc_4015DE:	            ; CODE XREF: sub_401580+51 j
+		lea     eax, [edi+esi]
+		pop     edi
+		pop     esi
+		add     eax, ebp
+		pop     ebp
+		pop     ebx
+
+		mov     result, eax
+	}
+
+	printf("Key: %d\n", result);
+	printf("Press any key to exit.\n");
+	getch();
+	return 0;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	test();
+	return 0;
+}
